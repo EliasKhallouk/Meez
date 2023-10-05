@@ -1,0 +1,49 @@
+Draisienne enfant – Draisienne G-Bike Vert
+83,93€
+Vert
+2kg
+Cette draisienne accompagnera votre enfant dès 2 ans dans l’apprentissage de la mobilité et du vélo en évitant les petites roues !
+
+INSERT INTO etat(libelle) VALUES ('en attente'), ('expédié'), ('validé'), ('confirmé');
+INSERT INTO fournisseur(libelle_fournisseur) VALUES('Decathlon'),('Revolution Bike');
+INSERT INTO type_velo(libelle) VALUES ('VTT'),('Vélo électrique'),('VTC'),('Vélo de ville'),('Vélo de route'),('Vélo enfant');
+INSERT INTO taille(libelle) VALUES('12-13 mois'),('3-5 ans'),('XS'), ('S'), ('M'), ('L'), ('XL');
+INSERT INTO couleur(nom_couleur) VALUES('Noir'),('Blanc'),('Rouge'),('Bleu'),('Vert'),('Jaune'),('Orange'),('Rose'),('Gris'),('Marron'),('Violet');
+
+INSERT INTO modele_velo VALUES (NULL,'VÉLO VTT ÉLECTRIQUE E-ST 100 ','velo-vtt-electrique-e-st-100-bleu-275.png','Ce VTT électrique (VTTAE) est conçu pour les randonnées tout terrain, avec un dénivelé modéré (parcours vallonnés). C''est un vélo parfaitement adapté pour découvrir ou redécouvrir la pratique et vivre ses premières sensations en VTT.',1099,1),
+                        (NULL,'VÉLO VTT RANDONNÉE EXPLORE 500 ','velo-vtt-randonnee-explore-500-noir-29.png','Ce VTT 29" est conçu pour vos randonnées VTT, toute l''année, de 2h à 3h.Confort et réactivité face aux aléas du terrain: les roues 29" (27,5" en S), le mono plateau et les freins à disque hydrauliques du VTT EXPL 500 vont changer vos randonnées VTT !',499,1),
+                        (NULL,'VÉLO VTT ST 100 ','velo-vtt-st-100-jaune-275.png','Ce VTT 27,5" est conçu pour vos 1ères randonnées VTT, par temps sec, jusqu''à 1h30. Efficacité ? Robustesse ? Les 2 s''il vous plaît ! Franchissez sans peine et sans casse vos premiers obstacles : cadre aluminium léger et roues en 27,5 montées sur jantes double parois.',250,1),
+                        (NULL,'VELO 14 POUCES 3-5 ANS 500 ','velo-14-pouces-3-5-ans-500-ocean.png','1,2,3 pédalez! Nous avons conçu ce vélo 14" pour que les enfants de 3 à 5 ans, mesurant 90cm à 105cm, apprennent à pédaler et à rouler comme les grands. Avec un enjambement bas, ce vélo avec stabilisateurs permet à votre enfant d''apprendre à rouler à son rythme. Il est équipé d''un carter de chaine et de garde boues pour éviter frottement et salissure',100,1),
+                        (NULL,'Draisienne enfant – Draisienne G-Bike','draisienne-enfant-draisienne-g-bike-vert.png','Cette draisienne accompagnera votre enfant dès 2 ans dans l’apprentissage de la mobilité et du vélo en évitant les petites roues !',83.932,1),
+                        (NULL,'BUNZI, Porteur et première draisienne 2en1','bunzi-porteur-et-premiere-draisienne-2en1.png','Tricycle et draisienne évolutifs 2en1, conçu pour apprendre à l’enfant à développer son sens de l''équilibre. Passez en quelques secondes du mode 3 roues en mode 2 roues et sans utiliser d''outils.',54.99,1),
+                        (NULL,'VTT All Mountain AM 100 ','vtt-all-mountain-am-100-s.png','Ce VTT tout suspendu a été conçu pour la pratique du All Mountain. Il est particulièrement adapté pour piloter vite tout en prenant un max de fun ! Parfait pour se dépasser sur les singles techniques et cassants ! Sa géométrie adaptée et ses roues en 29 favorisent la vitesse et la stabilité, votre flow na plus qu à sexprimer;)',1799,1),
+                        (NULL,'Vélo de Ville Pliant à Assistance Électrique 24 - Legend Siena 13Ah Noir','velo-de-ville-pliant-a-assistance-electrique-24-legend-siena-13ah-noir.png','Vélo électrique pliant de ville. Le Smart eBike Siena est un vélo pliant électrique confortable, idéal pour les déplacements urbains grâce à ses pneus de 24 pouces.',1804.05,1),
+                        (NULL,'Bottecchia 115 Altus Disque 16S 27,5 2022','9.png','Nous avons conçu ce vélo pour vous permettre de progresser facilement. Sa polyvalence et ses 2X8 vitesses vous permettront d''explorer toutes les routes. Progressez avec un vélo polyvalent! Sa géométrie confort, son cadre en aluminium, sa fourche carbone et ses freins à disque vous permettront de vous frotter à tous les types de parcours',590,2),
+                        (NULL,'VELO DE VILLE ELOPS 520','velo-de-ville-elops-520-cadre-bas-vert.png','Notre équipe de concepteurs⸱trices a conçu ce vélo confortable pour réaliser vos trajets urbains occasionnels, équipé pour le transport en toute sécurité.',349,1)
+                        ;
+
+
+
+-- 'velo-14-pouces-3-5-ans-500-unicorn.png'
+INSERT INTO velo VALUES
+                        (NULL,13,4,1,3,'velo-vtt-electrique-e-st-100-bleu-275.png'),
+                        (NULL,14,1,2,4,'velo-vtt-randonnee-explore-500-noir-29.png'),
+                        (NULL,15,6,3,3,'velo-vtt-st-100-jaune-275.png'),(NULL,16,6,3,4,'velo-vtt-st-100-jaune-275.png'),(NULL,17,6,3,5,'velo-vtt-st-100-jaune-275.png'),
+                        (NULL,9,4,4,2,'velo-14-pouces-3-5-ans-500-ocean.png'),
+                        (NULL,2,5,5,1,'draisienne-enfant-draisienne-g-bike-vert.png'),
+                        (NULL,3,5,6,1,'bunzi-porteur-et-premiere-draisienne-2en1.png'),
+                        (NULL,15,4,7,4,'vtt-all-mountain-am-100-s.png'),(NULL,15,4,7,4,'vtt-all-mountain-am-100-s.png'),
+                        (NULL,21,1,8,4,'velo-de-ville-pliant-a-assistance-electrique-24-legend-siena-13ah-noir.png'),(NULL,21,2,8,4,'velo-de-ville-pliant-a-assistance-electrique-24-legend-siena-13ah-blanc.png'),(NULL,21,3,8,4,'velo-de-ville-pliant-a-assistance-electrique-24-legend-siena-13ah-rouge.png'),
+                        (NULL,15,3,9,5,'9.png'),
+                        (NULL,15,5,10,5,'velo-de-ville-elops-520-cadre-bas-vert.png');
+
+INSERT INTO est_de_type VALUES(1,1),(1,2),
+                              (2,1),
+                              (3,1),
+                              (4,6),
+                              (5,6),
+                              (6,6),
+                              (7,1),
+                              (8,4),(8,2),
+                              (9,1),
+                              (10,4);
