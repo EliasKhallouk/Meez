@@ -1,0 +1,131 @@
+{% extends "admin/layout_admin.html" %}
+{% block body %}
+      <meta charset="utf-8">
+  <title>DATAVIZ</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../../static/css/normalize.css">
+  <link rel="stylesheet" href="../../../static/css/main.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/data.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+
+<div id="container" style=" margin: 30px auto 0 auto;"></div>
+
+<h2 style="color: rgb(0,0,0) !important;fontWeight:'bold';fontSize:'36px';fontFamily:'Roboto';text-align: center">NOMBRE TOTALE DE COMMANDE: {% print values[0].get('COUNT(*)') %}</h2>
+
+
+<script type="text/javascript">
+
+
+$(function () {
+	var processed_json = new Array();
+
+	$.getJSON('../../../static/json/population.json', function(data) {
+
+        for (i = 0; i < data.length; i++){
+            if(data[i].value>0) {
+                processed_json.push([data[i].nom, data[i].value]);
+            }
+        }
+
+		$.getJSON('../../../static/json/departements.geojson', function (geojson) {
+            let date1 = new Date();
+            let dateLocale = date1.toLocaleDateString('Fr-FR',{
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            });
+
+
+			Highcharts.mapChart('container', {
+				chart: {
+					map: geojson,
+					plotBackgroundColor: '#FFFFFF'
+				},
+				title: {
+					text: 'Répartition des commandes en France',
+					 margin: 50,
+					 style: {
+						color: '#000000',
+						fontWeight: 'bold',
+						fontSize: '36px',
+						fontFamily: 'Roboto'
+					}
+				},
+				subtitle: {
+					text: 'Données mises à jour le '+dateLocale,
+					margin: 50,
+					 style: {
+						color: '#BABABA',
+						fontSize: '18px',
+						fontFamily: 'Roboto'
+					}
+				},
+
+				mapNavigation: {
+					enabled: true,
+					buttonOptions: {
+						verticalAlign: 'bottom'
+					},
+					enableDoubleClickZoomTo: true
+				},
+				colorAxis: {
+					tickPixelInterval: 60,
+					minColor: '#ea698b',
+					maxColor: '#47126b',
+					type: 'logarithmic'
+				},
+
+				 legend: {
+					title: {
+						text: 'Nombre de commandes'
+					},
+					backgroundColor: '#FFFFFF',
+					align: 'right',
+					verticalAlign: 'top',
+					layout: 'vertical',
+					x: 0,
+					y: 100
+				},
+
+				series: [{
+					animation: true,
+					data: processed_json,
+					keys: ['nom', 'value'],
+					joinBy: 'nom',
+					name: 'Commandes',
+					borderColor: '#EFEFEF',
+					nullColor: '#EFEFEF',
+					states: {
+						hover: {
+							color: '#b19000'
+						},
+					},
+					 tooltip: {
+						pointFormat: '{point.nom}: {point.value}',
+						valueSuffix: ' commandes'
+					},
+					dataLabels: {
+						enabled: false,
+						format: '{point.nom}'
+					}
+				}]
+			});
+		});
+	});
+});
+
+</script>
+
+  <script src="../../../static/js/vendor/modernizr-3.7.1.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  <script src="../../../static/js/main.js"></script>
+{% endblock %}

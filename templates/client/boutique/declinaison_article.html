@@ -1,0 +1,222 @@
+{% extends "client/layout_client.html" %}
+{% block stylepage %}
+    <style>
+        .radio-group {
+          display: flex;
+          flex-direction: row;
+        }
+
+        input[type="radio"] {
+          display: none;
+        }
+
+        label {
+            width: fit-content !important;
+            height: fit-content !important;
+            padding: 0 !important;
+          cursor: pointer;
+        }
+
+
+        input[type="radio"] + label div {
+          border: 2px solid transparent;
+          width: 50px;
+          height: 50px;
+        }
+
+        input[type="radio"]:checked + label div {
+            border: 3px solid #a6a6ff !important;
+
+            border-radius: 100px;
+
+        }
+    </style>
+{% endblock %}
+{% block title %} {{ article.nom }}
+{% endblock %}
+{% block body %}
+   <h5>choix "déclinaison" d'articles</h5> {# {{ declinaisons | pprint }}#}
+
+    <div class="container" >
+        <div class="row align-self-right" style="display:flex;flex-direction: row; align-items: center">
+        <div class="card col-4 mt-4 p-1">
+                            <div class="card-body border-dark rounded p-1">
+                                <a href="/client/article/details?id_article={{ article.id_article }}" >
+                                <h2 class="card-title">
+                                    <span style="color: #0b2e13">{{ article.nom }}</span><br>
+                                    {{ article.prix }}
+                                    €
+                                </h2>
+                                     {%  if article.image is not none %}
+                                        <img class="card-img-top rounded mx-auto d-block" id="image"  style="width:100px;height:100px"  src="{{ url_for('static', filename = 'images/')}}{{ couleurs[0].image }}"  alt="image  de {{ article.nom }}" >
+                                    {% else %} <img class="card-img-top rounded mx-auto d-block"  id="image"  style="width:100px;height:100px"   src="{{ url_for('static', filename='images/no_photo.jpeg')}}"  alt="image  de {{ article.nom }}" >
+                                    {% endif %}
+                                    <hr>
+                                </a>
+                            </div>
+        </div>
+        <div class="" style="width: fit-content">
+        <form action="/client/panier/add" method="post">
+        <input type="hidden" name="id_modele" value="{{ article.id_modele }}">
+
+        <div class="radio-group">
+        {% for i in range(couleurs|length) %}
+                    {% if couleurs[i].id_couleur is defined and  couleurs[i].id_couleur > 0 %}
+                        {% if i!=0 %}
+                            <input type="radio" id="couleur{{ couleurs[i].id_couleur }}" name="radio-group" value="{{ couleurs[i].id_couleur }}">
+                            <label for="couleur{{ couleurs[i].id_couleur }}"><div style="width: 30px; height: 30px;margin: 0 5px; background-color: var(--{{  couleurs[i].nom_couleur }}); display: inline-block; border: 1px solid black; border-radius: 100px"></div>
+</label>
+                        {% else %}
+                             <input type="radio" id="couleur{{ couleurs[i].id_couleur }}" name="radio-group" value="{{ couleurs[i].id_couleur }}" checked>
+                            <label for="couleur{{ couleurs[i].id_couleur }}">                                <div style="width: 30px; height: 30px;margin:0 5px ;background-color: var(--{{  couleurs[i].nom_couleur}}); display: inline-block; border: 1px solid black; border-radius: 100px"></div></label>
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+        </div> <select class="form-select-sm form-select" style="width: 250px; margin: 15px 0" id="taille" name="id_taille" required>
+                <option value="">Selectionner une taille</option>
+            {% for item_declinaison in tailles  %}
+                    {% if item_declinaison.id_taille is defined and  item_declinaison.id_taille > 0 %}
+                        <option id="{{ item_declinaison.id_taille }}taille" value="{{ item_declinaison.id_taille }}">{{item_declinaison.libelle}}</option>
+                    {% endif %}
+
+
+            {% endfor %}
+        </select>
+
+        <input type="number" step="1" min="0" max="0" id="quantite" name="quantite" required>
+
+        <button class="btn btn-success">Ajouter</button>
+
+
+
+        </form>
+        </div>
+        </div>
+    </div>
+
+    <script>
+    const select = document.getElementById("taille");
+    const input = document.getElementById("quantite");
+
+
+
+
+    select.addEventListener("change", function() {
+        var color = document.querySelector('input[name="radio-group"]:checked').value;
+        {% for info in stock %}
+            if (this.value == {{ info.id_taille }} && color == {{ info.id_couleur }}) {
+                input.max = {{ info.stock }};
+                if (input.value > {{ info.stock }}) {
+                    input.value = {{ info.stock }};
+                }
+            }
+        {% endfor %}
+        console.log("coucou");
+    });
+
+    const radioGroup = document.querySelector(".radio-group");
+    radioGroup.addEventListener("change", function() {
+        var color = document.querySelector('input[name="radio-group"]:checked').value;
+        var stock;
+        var image = document.getElementById("image")
+
+        {% for i in couleurs%}
+
+            if (color == {{ i.id_couleur }}) {
+
+                image.src = "{{ url_for('static', filename ='images/')}}{% if  i.image  !='' %}{{  i.image  }}{% else %}no_photo.jpeg{% endif %}";
+            }
+        {% endfor %}
+
+        input.value="";
+
+        var selections = document.getElementById("taille");
+
+        selections.options[0].selected = true;
+
+        var tailleDeSelections = selections.options.length;
+
+        for (var i = 0; i < tailleDeSelections; i++) {
+
+            {% for c in couleurs %}
+                if (color == {{ c.id_couleur }}) {
+                    if (selections.options[i].value != "") {
+                        selections.options[i].disabled = true;
+                        {% for i in tailles %}
+                        if(selections.options[i].value == {{ i.id_taille }}){
+                            selections.options[i].innerHTML = "{{ i.libelle }} - (stock: epuisé)";
+
+                        }
+                        {% endfor %}
+
+
+                    }
+                {% for info in stock %}
+                    if (selections.options[i].value == {{ info.id_taille }} && color == {{ info.id_couleur }}) {
+                        stock = {{ info.stock }};
+                        if (input.value > stock) {
+                            input.value = stock;
+                        }
+                        if(stock != 0){
+                            selections.options[i].disabled = false;
+                            selections.options[i].innerHTML = "{% for taille in tailles %} {% if taille.id_taille == info.id_taille %} {{ taille.libelle }} {% endif %} {% endfor %} - (stock :{{ info.stock }})";
+                        }
+
+
+                    }
+
+                {% endfor %}
+                }
+            {% endfor %}
+        }
+        console.log("coucou2");
+    });
+
+
+        var color = document.querySelector('input[name="radio-group"]:checked').value;
+        var stock;
+
+        input.value="";
+
+        var selections = document.getElementById("taille");
+
+        selections.options[0].selected = true;
+
+        var tailleDeSelections = selections.options.length;
+
+        for (var i = 0; i < tailleDeSelections; i++) {
+
+            {% for info in couleurs %}
+                if (color == {{ info.id_couleur }}) {
+                    if (selections.options[i].value != "") {
+                        selections.options[i].disabled = true;
+                        {% for i in tailles %}
+                        if(selections.options[i].value == {{ i.id_taille }}){
+                            selections.options[i].innerHTML = "{{ i.libelle }} - (stock: epuisé)";
+
+                        }
+                        {% endfor %}
+                    }
+
+                {% for info in stock %}
+                    if (selections.options[i].value == {{ info.id_taille }} && color == {{ info.id_couleur }}) {
+                        stock = {{ info.stock }};
+                        if (input.value > stock) {
+                            input.value = stock;
+                        }
+                        if(stock != 0){
+                            selections.options[i].disabled = false;
+                            selections.options[i].innerHTML = "{% for taille in tailles %} {% if taille.id_taille == info.id_taille %} {{ taille.libelle }} {% endif %} {% endfor %} - (stock :{{ info.stock }})";
+
+                        }
+
+                    }
+
+                {% endfor %}
+                }
+            {% endfor %}
+        }
+
+</script>
+{% endblock %}
