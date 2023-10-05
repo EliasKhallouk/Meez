@@ -3,9 +3,9 @@ on the back-end. In particular, we used Flask,
 PythonAnywhere for hosting, and MySQL for database management.
 database management.
 
-* étudiant référent : Elias Khallouk
-* étudiant 2 : Zekeriya Akburak
-* étudiant 3 : Enzo Bellicaud
-* étudiant 4 : Mohamed-Amine  EL HAJJAJI
+* student referent : Elias Khallouk
+* student 2 : Zekeriya Akburak
+* student 3 : Enzo Bellicaud
+* student 4 : Mohamed-Amine  EL HAJJAJI
 
-URL du site pythonanywhere : meez.pythonanywhere.com
+URL of the pythonanywhere site : meez.pythonanywhere.com
